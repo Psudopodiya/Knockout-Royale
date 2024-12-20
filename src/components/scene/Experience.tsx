@@ -9,13 +9,9 @@ import {
 import { useRef } from "react";
 import { Physics } from "@react-three/rapier";
 import { OrthographicCamera as ThreeOrthographicCamera } from "three";
-import { usePlayerStore } from "@/stores/playerStore";
 
 export function Experience() {
-  const { players, localPlayerId } = usePlayerStore();
-  const localPlayer = players.find((player) => player.id === localPlayerId);
-
-  console.log("Experience - Local Player:", localPlayer);
+  const shadowCameraRef = useRef<ThreeOrthographicCamera>(null);
   return (
     <>
       <OrbitControls />
