@@ -20,21 +20,28 @@ interface UpdateThresholds {
 
 export function Character_Controller() {
   const { local_player_data, wsConnection } = usePlayerStore();
-  const { WALK_SPEED, RUN_SPEED, ROTATION_SPEED, CAMERA_Y, CAMERA_Z } =
-    useControls("Character Control", {
-      WALK_SPEED: { value: 0.8, min: 0.1, max: 4, step: 0.1 },
-      POSITION_Y: { value: 10, min: -20, max: 20, step: 0.2 },
-      RUN_SPEED: { value: 1.6, min: 0.2, max: 12, step: 0.1 },
-      CAMERA_Y: { value: 4, min: -20, max: 20, step: 0.2 },
-      CAMERA_Z: { value: -10, min: -20, max: 0, step: 0.2 },
-      JUMP_FORCE: { value: 5, min: 1, max: 10, step: 0.1 }, // Add jump force control
-      ROTATION_SPEED: {
-        value: degToRad(0.5),
-        min: degToRad(0.1),
-        max: degToRad(5),
-        step: degToRad(0.1),
-      },
-    });
+  const [isGrounded, setIsGrounded] = useState(true);
+  const {
+    WALK_SPEED,
+    RUN_SPEED,
+    ROTATION_SPEED,
+    CAMERA_Y,
+    CAMERA_Z,
+    JUMP_FORCE,
+  } = useControls("Character Control", {
+    WALK_SPEED: { value: 0.8, min: 0.1, max: 4, step: 0.1 },
+    POSITION_Y: { value: 10, min: -20, max: 20, step: 0.2 },
+    RUN_SPEED: { value: 1.6, min: 0.2, max: 12, step: 0.1 },
+    CAMERA_Y: { value: 4, min: -20, max: 20, step: 0.2 },
+    CAMERA_Z: { value: -10, min: -20, max: 0, step: 0.2 },
+    JUMP_FORCE: { value: 5, min: 1, max: 10, step: 0.1 }, // Add jump force control
+    ROTATION_SPEED: {
+      value: degToRad(0.5),
+      min: degToRad(0.1),
+      max: degToRad(5),
+      step: degToRad(0.1),
+    },
+  });
 
   const rb = useRef<RapierRigidBody>(null);
   const characterRotationTarget = useRef(0);
@@ -84,6 +91,18 @@ export function Character_Controller() {
       if (get().leftward) movement.x += 1;
       if (get().rightward) movement.x -= 1;
 
+      // Check if player is grounded based on vertical velocity
+      if (Math.abs(vel.y) < 0.1) {
+        setIsGrounded(true);
+      } else {
+        setIsGrounded(false);
+      }
+      // Handle jump
+      if (get().jump && isGrounded) {
+        vel.y = JUMP_FORCE;
+        setIsGrounded(false);
+      }
+
       const speed = get().run ? RUN_SPEED : WALK_SPEED;
 
       if (movement.x !== 0) {
@@ -95,6 +114,7 @@ export function Character_Controller() {
           Math.sin(rotationTarget.current) * speed * (movement.z < 0 ? -1 : 1);
         vel.z =
           Math.cos(rotationTarget.current) * speed * (movement.z < 0 ? -1 : 1);
+
         if (speed === RUN_SPEED) {
           setAnimation("run");
         } else if (speed === WALK_SPEED) {

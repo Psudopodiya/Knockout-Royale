@@ -26,7 +26,7 @@ interface GLTFResult extends GLTF {
 export function Character({ animation, player_username }: CharacterProps) {
   const groupRef = useRef<Group | null>(null);
   const previousAnimationRef = useRef<string>("idle"); // Keep track of previous animation
-
+  console.log("///", animation);
   const { scene, animations: originalAnimations } = useGLTF(
     "./fall_guy.glb"
   ) as GLTFResult;
