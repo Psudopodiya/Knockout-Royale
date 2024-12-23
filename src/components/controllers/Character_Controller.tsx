@@ -220,9 +220,9 @@ export function Character_Controller() {
         lockRotations
         ref={rb}
         position={[
-          local_player_data?.player_position.x,
-          local_player_data?.player_position.y,
-          local_player_data?.player_position.z,
+          local_player_data?.player_position.x ?? 0,
+          local_player_data?.player_position.y ?? 0,
+          local_player_data?.player_position.z ?? 0,
         ]}
       >
         <group ref={container}>
