@@ -1,4 +1,3 @@
-import { Ground } from "@/components/models/Ground";
 import { Character_Controller } from "@/components/controllers/Character_Controller";
 import { RemoteCharacterController } from "@/components/controllers/RemoteCharacterController";
 import {
@@ -9,6 +8,7 @@ import {
 import { useRef } from "react";
 import { Physics } from "@react-three/rapier";
 import { OrthographicCamera as ThreeOrthographicCamera } from "three";
+import { Map } from "./Map";
 
 export function Experience() {
   const shadowCameraRef = useRef<ThreeOrthographicCamera>(null);
@@ -34,8 +34,7 @@ export function Experience() {
         />
       </directionalLight>
       <Physics debug>
-        <Ground position={[0, -2, 0]} dimensions={[10, 0.5, 20]} />
-        <Ground position={[10, -2, 0]} dimensions={[10, 0.5, 20]} />
+        <Map />
         <Character_Controller />
         <RemoteCharacterController />
       </Physics>

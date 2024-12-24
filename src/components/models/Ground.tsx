@@ -1,12 +1,12 @@
 import { RigidBody } from "@react-three/rapier";
-import { Edges, Plane } from "@react-three/drei";
+import { Html, Plane } from "@react-three/drei";
 
 type Props = {
   position: [number, number, number];
   dimensions: [number, number, number];
+  name: string;
 };
-
-export function Ground({ position, dimensions }: Props) {
+export function Ground({ position, dimensions, name }: Props) {
   return (
     <RigidBody
       type="fixed"
@@ -17,7 +17,9 @@ export function Ground({ position, dimensions }: Props) {
       <Plane receiveShadow>
         <boxGeometry args={dimensions} />
         <meshStandardMaterial color="#40E0D0" roughness={2} />
-        <Edges />
+        <Html>
+          <div>{name}</div>
+        </Html>
       </Plane>
     </RigidBody>
   );
