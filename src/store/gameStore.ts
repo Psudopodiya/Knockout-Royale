@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { Vector3 } from "@react-three/fiber";
+// import { Vector3 } from "@react-three/fiber";
+import { Vector3 } from "three";
 import { WebSocketService } from "@/services/websocket/websocket";
 
 type Player = {

@@ -33,7 +33,7 @@ export function Character_Controller() {
     POSITION_Y: { value: 10, min: -20, max: 20, step: 0.2 },
     RUN_SPEED: { value: 1.6, min: 0.2, max: 12, step: 0.1 },
     CAMERA_Y: { value: 4, min: -20, max: 20, step: 0.2 },
-    CAMERA_Z: { value: -10, min: -20, max: 0, step: 0.2 },
+    CAMERA_Z: { value: -15, min: -25, max: -5, step: 0.2 },
     JUMP_FORCE: { value: 5, min: 1, max: 10, step: 0.1 }, // Add jump force control
     ROTATION_SPEED: {
       value: degToRad(0.5),
@@ -220,9 +220,9 @@ export function Character_Controller() {
         lockRotations
         ref={rb}
         position={[
-          local_player_data?.player_position.x,
-          local_player_data?.player_position.y,
-          local_player_data?.player_position.z,
+          local_player_data?.player_position.x ?? 0,
+          local_player_data?.player_position.y ?? 0,
+          local_player_data?.player_position.z ?? 0,
         ]}
       >
         <group ref={container}>
