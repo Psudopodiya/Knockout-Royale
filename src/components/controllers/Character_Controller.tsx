@@ -108,7 +108,10 @@ export function Character_Controller() {
       if (movement.x !== 0) {
         rotationTarget.current += ROTATION_SPEED * movement.x;
       }
-      if (movement.x !== 0 || movement.z !== 0) {
+      if (movement.z !== 0) {
+        vel.x = Math.sin(rotationTarget.current) * WALK_SPEED * movement.z;
+        vel.z = Math.cos(rotationTarget.current) * WALK_SPEED * movement.z;
+
         characterRotationTarget.current = Math.atan2(movement.x, movement.z);
         vel.x =
           Math.sin(rotationTarget.current) * speed * (movement.z < 0 ? -1 : 1);
